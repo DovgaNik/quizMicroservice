@@ -8,14 +8,15 @@ const port = 3000;
 
 const configPath = 'config.json'
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-const API_key = config.GEMINI_API_KEY;
+const API_KEY = config.GEMINI_API_KEY;
+const GEMINI_MODEL = config.GEMINI_MODEL;
 
-app.use(express.json())
+app.use(express.json({ limit: '50mb' }));
 
 app.post("/gemini", async (req, res) => {
 
-    const genAI = new GoogleGenerativeAI(API_key);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
 
     const prompt = prompts.createPrompt(req.body.amountOfQuestions, req.body.amountOfOptions, req.body.amountOfMultipleAnswerQuestions, req.body.ignoreContext, req.body.content);
 

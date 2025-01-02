@@ -1,20 +1,11 @@
+# @timeout 6000
 POST http://127.0.0.1:3000/gemini
 Content-Type: application/json
 
 {
-    "prompt": "Please, deeply analyse the transcript that I am going to provide you with. Determine knowledge points that must be tested to evaluate the comprehension of the material by the audience of this class. Based on the knowledge you have determined, please generate 20 multiple choice questions. You must not output anything except the questions and answers to them in json format. Also, during the even (e.g. lecture) the host may talk about something not related to the subject of the event, you must not include anything of that, all the MCQs must be related to the main talking subject of the transcript. Here is the transcript of the class: ",
-    "content": ""
-}
-
-###
-
-POST http://127.0.0.1:3000/gemini/options
-Content-Type: application/json
-
-{
-  "amountOfQuestions": 5,
+  "amountOfQuestions": 50,
   "amountOfOptions": 4,
-  "amountOfMultipleAnswerQuestions": 1,
+  "amountOfMultipleAnswerQuestions": 5,
   "ignoreContext": true,
   "content": ""
 }
