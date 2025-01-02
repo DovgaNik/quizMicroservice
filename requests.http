@@ -7,7 +7,7 @@ Content-Type: application/json
   "amountOfOptions": 4,
   "amountOfMultipleAnswerQuestions": 5,
   "ignoreContext": true,
-  "content": ""
+  "content": "TESTTESTTEST"
 }
 
 ###

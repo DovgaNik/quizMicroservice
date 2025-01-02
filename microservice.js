@@ -1,30 +1,20 @@
 const express = require("express");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fs = require('fs');
-const prompts = require("./promptCreator.js")
 
 const app = express();
-const port = 3000;
-
-const configPath = 'config.json'
-const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-const API_KEY = config.GEMINI_API_KEY;
-const GEMINI_MODEL = config.GEMINI_MODEL;
-
 app.use(express.json({ limit: '50mb' }));
 
-app.post("/gemini", async (req, res) => {
+// Loading the config
+const configPath = 'config.json';
+const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+app.locals.config = config;
 
-    const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
+// Importing the routes
+const gemini = require("./routes/gemini.js");
+app.use(gemini)
 
-    const prompt = prompts.createPrompt(req.body.amountOfQuestions, req.body.amountOfOptions, req.body.amountOfMultipleAnswerQuestions, req.body.ignoreContext, req.body.content);
-
-    const result = await model.generateContent(prompt);
-    res.send(result.response.text());
-
-})
-
-app.listen(port, () => {
-    console.log("DEBUG: Listening on port " + port);
+// Starting the server
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log("DEBUG: Server running. Listening on port " + PORT);
 })
