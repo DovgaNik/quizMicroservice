@@ -1,22 +1,23 @@
 const express = require("express");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const app = express();
+const fs = require('fs');
+
 const port = 3000;
 
-const API_key = "";
+const configPath = 'config.json'
+const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+
+const API_key = config.GEMINI_API_KEY;
 
 app.use(express.json())
-
-app.get("/", (req, res) => {
-    res.send("Welcome to microservice!");
-})
 
 app.post("/gemini",  async (req, res) => {
 
     const genAI = new GoogleGenerativeAI(API_key);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
-    const prompt = req.body.prompt;
+    const prompt = req.body.prompt + req.body.content;
 
     const result = await model.generateContent(prompt);
     console.log(result.response.text());
