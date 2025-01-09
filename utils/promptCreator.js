@@ -1,19 +1,50 @@
 export function createPrompt (amountOfQuestions, amountOfOptions, amountOfMultipleAnswerQuestions, ignoreContext, language, content) {
-    // You are the smartest presentation advisor. you will be given a transcript of presentation that can be anything like a lecture or a business presentation, it doesn't matter. your job is to analyze the main points and topics of the conversation and generate a multiple choice quiz to evaluate the level of comprehension by the audience.
+    // You are the smartest presentation advisor. you will be given a transcript of presentation. Your job is to generate a multiple choice quiz to evaluate the level of comprehension by the audience based on the main points of the conversation.
     // Your task is to generate {amountOfQuestions} multiple choice questions each of which will contain {amountOfOptions} of responses. {amountOfMultipleAnswerQuestions} of questions must contain more than one correct response.
-    // The questions must not be based on any organisational aspects of the transcripts, so all the questions must be based on the materials of the main topic of the speech.
+    // The questions must not be based on any of the irrelevant content of the presentation.
     // The questions must be in {language}
-    // The questions must be outputted in json format. Nothing else except the json of the questions must be outputted.
-
+    // The generated question and answers must be presented in the following format. Nothing else than this json must be outputted, not any comments or anything of that sort.
+    //{
+    //   "questions": [
+    //     {
+    //       "question": "Question 1",
+    //       "options": [
+    //         "Option 1",
+    //         "Option 2",
+    //         "Option 3",
+    //         "Option 4"
+    //         ... can be more or less options
+    //       ],
+    //       "correct_answers": [index of the correct option (can be one or more depending on the need)]
+    //     },
+    //     .... all the further questions in the same format in this array
+    //     ]
+    // }
     let prompt = "";
 
-    prompt += "You are the smartest presentation advisor. you will be given a transcript of presentation that can be anything like a lecture or a business presentation, it doesn't matter. your job is to analyze the main points and topics of the conversation and generate a multiple choice quiz to evaluate the level of comprehension by the audience.\n";
+    prompt += "You are the smartest presentation advisor. you will be given a transcript of presentation. Your job is to generate a multiple choice quiz to evaluate the level of comprehension by the audience based on the main points of the conversation.\n";
     prompt += `Your task is to generate ${amountOfQuestions} multiple choice questions each of which will contain ${amountOfOptions} of responses. ${amountOfMultipleAnswerQuestions} of questions must contain more than one correct response.\n`;
     if (ignoreContext) {
-        prompt += "The questions must not be based on any organisational aspects of the transcripts, so all the questions must be based on the materials of the main topic of the speech. So nothing like names of the presenters any organisatinal moments or anything like that. Just the main topic of the speech like the materials of the lecture or the presented subject.\n";
+        prompt += "The questions must not be based on any of the irrelevant content of the presentation.\n";
     }
     prompt += `The questions must be in ${language}.\n`
-    prompt += "The questions must be outputted in json format. Nothing else except the json of the questions and answers must be outputted.\n";
+    prompt += "The generated question and anwsers must be presented in the following format. Nothing else than this json must be outputted, not any comments or anything of that sort.\n";
+    prompt += "{\n" +
+        "  \"questions\": [\n" +
+        "    {\n" +
+        "      \"question\": \"Question 1\",\n" +
+        "      \"options\": [\n" +
+        "        \"Option 1\",\n" +
+        "        \"Option 2\",\n" +
+        "        \"Option 3\",\n" +
+        "        \"Option 4\"\n" +
+        "        ... can be more or less options\n" +
+        "      ],\n" +
+        "      \"correct_answers\": [index of the correct option (can be one or more depending on the need)]\n" +
+        "    },\n" +
+        "    .... all the further questions in the same format in this array\n" +
+        "    ]\n" +
+        "}"
 
     prompt += "Here is the transcript: \n";
     prompt += content;

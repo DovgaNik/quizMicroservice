@@ -3,11 +3,11 @@ POST http://127.0.0.1:3000/gemini
 Content-Type: application/json
 
 {
-  "amountOfQuestions": 50,
+  "amountOfQuestions": 10,
   "amountOfOptions": 4,
   "amountOfMultipleAnswerQuestions": 5,
   "ignoreContext": true,
-  "language": "russian",
+  "language": "english",
   "content": ""
 }
 
